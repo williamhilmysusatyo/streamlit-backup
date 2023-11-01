@@ -1,4 +1,3 @@
-
 def load_student_names(conn):
     cursor = conn.cursor()
     cursor.execute('SELECT studentName FROM aes_student')
