@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+from student_name02 import load_student_names
 
 def union(conn, student):
   cursor = conn.cursor()
@@ -84,5 +85,5 @@ with st.sidebar:
         "Student Identity", student_names
     )
 
-table = union(add_identity)
+table = union(conn, add_identity)
 st.table(table)
