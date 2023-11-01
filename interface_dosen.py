@@ -87,3 +87,4 @@ add_identity = st.selectbox(
 
 table = union(conn, add_identity)
 st.table(table)
+st.write('Test')
