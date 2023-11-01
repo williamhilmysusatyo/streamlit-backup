@@ -81,10 +81,22 @@ with st.sidebar:
   image = Image.open('student.jpg')
   st.image(image)
 
-add_identity = st.selectbox(
-        "Student Identity", student_names
-    )
+tab1, tab2, tab3, tab4 = st.tabs(['Score', 'Question', 'Course', 'Tutor/Lecturer')
 
-table = union(conn, add_identity)
-st.table(table)
-st.write('Test')
+with tab1:
+  add_identity = st.selectbox(
+          "Student Identity", student_names
+      )
+  
+  table = union(conn, add_identity)
+  st.table(table)
+
+with tab2:
+ st.write('Tab 2')
+  
+with tab3:
+  st.write('Tab 3')
+  
+with tab4:
+  st.write('Tab 4')
+  
