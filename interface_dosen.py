@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 from student_name02 import load_student_names
+from PIL import Image
 
 def union(conn, student):
   cursor = conn.cursor()
