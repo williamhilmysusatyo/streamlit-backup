@@ -74,15 +74,15 @@ head1 = st.header('Real Time Online Tutorial Test',  divider='rainbow')
 head2 = st.write('**Open University** | :sunglasses: **:blue[Automatic Essay Scoring]**')
 
 with st.sidebar:
-    conn = sqlite3.connect('/content/gdrive/MyDrive/Asset/database_aes03.db')
+    conn = sqlite3.connect('database_aes03.db')
     student_names = load_student_names(conn)
 
-    image = Image.open('/content/gdrive/MyDrive/Asset/student.jpg')
+    image = Image.open('student.jpg')
     st.image(image)
 
     add_identity = st.sidebar.selectbox(
         "Student Identity", student_names
     )
 
-table = union()
+table = union(add_identity)
 st.table(table)
