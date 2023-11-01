@@ -73,11 +73,10 @@ st.markdown("""
 
 head1 = st.header('Real Time Online Tutorial Test',  divider='rainbow')
 head2 = st.write('**Open University** | :sunglasses: **:blue[Automatic Essay Scoring]**')
+conn = sqlite3.connect('database_aes03.db')
+student_names = load_student_names(conn)
 
 with st.sidebar:
-    conn = sqlite3.connect('database_aes03.db')
-    student_names = load_student_names(conn)
-
     image = Image.open('student.jpg')
     st.image(image)
 
