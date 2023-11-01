@@ -84,7 +84,7 @@ with st.sidebar:
     [":rainbow[Comedy]", "***Drama***", "Documentary :movie_camera:"],
     captions = ["Laugh out loud.", "Get the popcorn.", "Never stop learning."])
 
-tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer")
+tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer"])
 
 with tab1:
   add_identity = st.selectbox(
