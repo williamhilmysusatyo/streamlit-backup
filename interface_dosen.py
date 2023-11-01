@@ -4,7 +4,7 @@ import pandas as pd
 from student_name02 import load_student_names
 from PIL import Image
 
-def union(conn, student):
+def union(conn):
   cursor = conn.cursor()
   sql_query = '''
         WITH CombinedScores AS (
@@ -13,21 +13,21 @@ def union(conn, student):
             FROM
                 aes_student_answer_score AS A, aes_course AS B
             WHERE
-                (A.courseID = B.courseID) AND (A.assignmentID = 1) AND A.studentName == ?
+                (A.courseID = B.courseID) AND (A.assignmentID = 1) 
             UNION
             SELECT
                 A.studentName, A.studentID, B.courseName, A.assignmentID AS Tutorial, 0 AS Score1, A.answerScore AS Score2, 0 AS Score3
             FROM
                 aes_student_answer_score AS A, aes_course AS B
             WHERE
-                (A.courseID = B.courseID) AND (A.assignmentID = 2) AND A.studentName == ?
+                (A.courseID = B.courseID) AND (A.assignmentID = 2) 
             UNION
             SELECT
                 A.studentName, A.studentID, B.courseName, A.assignmentID AS Tutorial, 0 AS Score1, 0 AS Score2, A.answerScore AS Score3
             FROM
                 aes_student_answer_score AS A, aes_course AS B
             WHERE
-                (A.courseID = B.courseID) AND (A.assignmentID = 3) AND A.studentName == ?
+                (A.courseID = B.courseID) AND (A.assignmentID = 3) 
         )
         SELECT
             studentName,
@@ -42,7 +42,7 @@ def union(conn, student):
             CombinedScores;
     '''
 
-  cursor.execute(sql_query, (student, student, student))
+  cursor.execute(sql_query)
   result = cursor.fetchall()
   column_names = [desc[0] for desc in cursor.description]
   df_course = pd.DataFrame(result, columns=column_names)
@@ -162,6 +162,8 @@ tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer
 
 with tab1:
   row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
+  df_course = union(conn)
+  
   with row1_col1:
     st.markdown('\n')
     x = filter_dataframe(df_course)
@@ -180,12 +182,12 @@ with tab1:
     
     st.dataframe(x, width=3000, height= 413)
 
-  add_identity = st.selectbox(
-          "Student Identity", student_names
-      )
+  #add_identity = st.selectbox(
+          #"Student Identity", student_names
+      #)
   
-  table = union(conn, add_identity)
-  st.table(table)
+  #table = union(conn, add_identity)
+  #st.table(table)
 
 with tab2:
  st.write('Tab 2')
