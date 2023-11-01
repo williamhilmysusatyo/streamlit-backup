@@ -52,6 +52,83 @@ def union(conn, student):
 
   return df_course
 
+def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a UI on top of a dataframe to let viewers filter columns
+
+    Args:
+        df (pd.DataFrame): Original dataframe
+
+    Returns:
+        pd.DataFrame: Filtered dataframe
+    """
+    modify = st.checkbox("Checklist for Activated Filter", value=True)
+
+    if not modify:
+        return df
+
+    df = df.copy()
+
+    # Try to convert datetimes into a standard format (datetime, no timezone)
+    for col in df[['courseName', 'Tutorial']].columns:
+        if is_object_dtype(df[col]):
+            try:
+                df[col] = pd.to_datetime(df[col])
+            except Exception:
+                pass
+
+        if is_datetime64_any_dtype(df[col]):
+            df[col] = df[col].dt.tz_localize(None)
+
+    modification_container = st.container()
+    # print(df[['Courses', 'Assignment']].columns)
+    with modification_container:
+        
+        to_filter_columns = st.multiselect("Filter data", df[['courseName', 'Tutorial']].columns)
+        for column in to_filter_columns:
+            left, right = st.columns((14,1))
+            # Treat columns with < 10 unique values as categorical
+            if is_categorical_dtype(df[column]) or df[column].nunique() < 10:
+                user_cat_input = left.multiselect(
+                    f"Select to {column}",
+                    df[column].unique(),
+                    default=[]
+                    # list(df[column].unique()),
+                )
+                df = df[df[column].isin(user_cat_input)]
+            elif is_numeric_dtype(df[column]):
+                _min = float(df[column].min())
+                _max = float(df[column].max())
+                step = (_max - _min) / 100
+                user_num_input = left.slider(
+                    f"Select to {column}",
+                    min_value=_min,
+                    max_value=_max,
+                    value=(_min, _max),
+                    step=step,
+                )
+                df = df[df[column].between(*user_num_input)]
+            elif is_datetime64_any_dtype(df[column]):
+                user_date_input = left.date_input(
+                    f"Select to {column}",
+                    value=(
+                        df[column].min(),
+                        df[column].max(),
+                    ),
+                )
+                if len(user_date_input) == 2:
+                    user_date_input = tuple(map(pd.to_datetime, user_date_input))
+                    start_date, end_date = user_date_input
+                    df = df.loc[df[column].between(start_date, end_date)]
+            else:
+                user_text_input = left.text_input(
+                    f"Substring or regex in {column}",
+                )
+                if user_text_input:
+                    df = df[df[column].astype(str).str.contains(user_text_input)]
+
+    return df
+  
 st.set_page_config(page_title="Page Title", layout="wide")
 isi_file = ""
 
@@ -84,6 +161,25 @@ with st.sidebar:
 tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer"])
 
 with tab1:
+  row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
+  with row1_col1:
+    st.markdown('\n')
+    x = filter_dataframe(df_course)
+  with row1_col2:
+            ()
+  with row1_col3:
+    st.markdown("""
+    <style>
+    .big-font {
+        font-size:20px !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+  
+    st.markdown('<p class="big-font">Scoring Data </p>', unsafe_allow_html=True)
+    
+    st.dataframe(x, width=3000, height= 413)
+
   add_identity = st.selectbox(
           "Student Identity", student_names
       )
