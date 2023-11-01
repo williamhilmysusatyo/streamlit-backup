@@ -90,6 +90,7 @@ with tab1:
   
   table = union(conn, add_identity)
   st.table(table)
+  st.write('Test')
 
 with tab2:
  st.write('Tab 2')
