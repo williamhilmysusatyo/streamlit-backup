@@ -80,6 +80,9 @@ student_names = load_student_names(conn)
 with st.sidebar:
   image = Image.open('student.jpg')
   st.image(image)
+  st.radio("What's your favorite movie genre",
+    [":rainbow[Comedy]", "***Drama***", "Documentary :movie_camera:"],
+    captions = ["Laugh out loud.", "Get the popcorn.", "Never stop learning."])
 
 tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer")
 
