@@ -159,14 +159,14 @@ with st.sidebar:
   st.image(image)
 
 tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer"])
-df_course = union(conn)
+df = union(conn)
 
 with tab1:
   row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
   
   with row1_col1:
     st.markdown('\n')
-    x = filter_dataframe(df_course)
+    x = filter_dataframe(df)
   with row1_col2:
             ()
   with row1_col3:
