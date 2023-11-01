@@ -160,7 +160,6 @@ with st.sidebar:
 
 tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer"])
 df_course = union(conn)
-st.table(df_course)
 
 with tab1:
   row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
