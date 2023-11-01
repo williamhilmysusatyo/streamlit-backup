@@ -77,9 +77,8 @@ head2 = st.write('**Open University** | :sunglasses: **:blue[Automatic Essay Sco
 conn = sqlite3.connect('database_aes03.db')
 student_names = load_student_names(conn)
 
-with st.sidebar:
-    image = Image.open('student.jpg')
-    st.image(image)
+image = Image.open('student.jpg')
+st.image(image)
 
 add_identity = st.selectbox(
         "Student Identity", student_names
