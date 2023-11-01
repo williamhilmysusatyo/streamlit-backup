@@ -161,40 +161,30 @@ with st.sidebar:
 tab1, tab2, tab3, tab4 = st.tabs(["Score", "Question", "Course", "Tutor/Lecturer"])
 df = union(conn)
 
-with tab1:
-  row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
-  
-  with row1_col1:
-    st.markdown('\n')
-    x = filter_dataframe(df)
-  with row1_col2:
-            ()
-  with row1_col3:
-    st.markdown("""
-    <style>
-    .big-font {
-        font-size:20px !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-  
-    st.markdown('<p class="big-font">Scoring Data </p>', unsafe_allow_html=True)
-    
-    st.dataframe(x, width=3000, height= 413)
+row1_col1,  row1_col2, row1_col3  = st.columns([3, 0.5, 11.5])
 
-  #add_identity = st.selectbox(
-          #"Student Identity", student_names
-      #)
-  
-  #table = union(conn, add_identity)
-  #st.table(table)
+with row1_col1:
+  st.markdown('\n')
+  x = filter_dataframe(df)
+with row1_col2:
+          ()
+with row1_col3:
+  st.markdown("""
+  <style>
+  .big-font {
+      font-size:20px !important;
+  }
+  </style>
+  """, unsafe_allow_html=True)
 
-with tab2:
- st.write('Tab 2')
+  st.markdown('<p class="big-font">Scoring Data </p>', unsafe_allow_html=True)
   
-with tab3:
-  st.write('Tab 3')
-  
-with tab4:
-  st.write('Tab 4')
+  st.dataframe(x, width=3000, height= 413)
+
+#add_identity = st.selectbox(
+        #"Student Identity", student_names
+    #)
+
+#table = union(conn, add_identity)
+#st.table(table)
   
